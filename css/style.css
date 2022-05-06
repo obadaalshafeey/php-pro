@@ -1,0 +1,143 @@
+/****** SIGUN UP PAGE ******/
+.signUp_form{
+    margin-left: 10%;
+    border: 1px red;
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    box-shadow: 6px 6px 20px grey;
+}
+.signUp_form h1{
+    color: #dc3545
+}
+.signUp_form p{
+    color:#dc3545
+}
+.col-lg-6{
+    padding-left: 0;
+}
+input{
+    margin: 0 10px 10px 0px;
+    width: 100%;
+}
+h1{
+    margin-bottom: 20px;
+}
+p{
+    margin-bottom: 50px;
+}
+.singUp-fields{
+    margin: auto;
+    width: 65%;
+}
+img{
+    padding: 20px;
+    margin-top: 70%;
+    margin-left: 60px;
+}
+.btn
+{
+    left: 19%;
+    margin-top: 10px;
+}
+/****** LOGIN PAGE ******/
+.login-btn {
+    left:0;
+    margin-top: 40px;
+}
+.have-account{
+    width: 24%;
+    margin: 20px auto;
+}
+.have_no_account{
+    width: 100%;
+    margin-top: 20px;
+}
+.login_form{
+    margin-left: 10%;
+    border: 1px blue;
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    box-shadow: 6px 6px 20px grey;
+}
+.login_form h1,
+.login_form p{
+    color:#2f75bf
+}
+.login-fields{
+    margin: auto;
+    width: 40%;
+}
+
+/****** ADMIN WELCOME PAGE ******/
+
+table{
+    width: 70% !important;
+    text-align: center !important;
+    margin: auto !important;
+}
+.admin-h1{
+    margin: 50px;
+}
+td{
+    vertical-align: top;
+}
+/****** USER WELCOME PAGE ******/
+.user-welcome{
+    padding: 20px;
+    border: 10px double #ff8800;
+    margin: 100px auto;
+    width: 50%;
+    box-shadow: 6px 6px 20px grey;
+}
+/****** INDEX.HTML ******/
+.index h1{
+    margin-top: 70px;
+}
+.index-img{
+    margin-top: 20px;
+}
+.index .btn{
+    left: 0;
+}
+@media (max-width:992px){
+    .singUp-fields{
+        width:100%;
+    }
+    img{
+        display: none;
+    }
+    .btn{
+        left:1px
+    }
+    .have-account{
+        width: 90%;
+    }
+    .admin-h1{
+        width:100%;
+        margin: 50px 0;
+    }
+    table{
+        width:100% !important;
+        font-size: 8px;
+
+    }
+    .user-welcome{
+        width: 100%;
+    }
+    .index-img{
+        display: block;
+        margin: auto;
+    }
+}
+@media (min-width:992px){
+    img{
+    margin-left:8px
+    }
+    .have-account{
+        width: 30%;
+    }
+}
