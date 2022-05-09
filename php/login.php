@@ -2,37 +2,40 @@
 session_start();
 
 if (isset($_POST['submit'])){
-    
+     
     $_SESSION['loginEmail']=$_POST['loginEmail'];
     $_SESSION['loginPassword']=$_POST['loginPassword'];
     $adminEmail_correct=true;
     $adminPass_correct=true;
 
-    foreach ($_SESSION['array'] as $key => $value) {
+    foreach ($_SESSION['array'] as $key=> $value) {
         //Check Email
-        if($key == 'Email'){
-            if($_SESSION['loginEmail']==($value||'admin@gmail.com')){
+      
+            if($_SESSION['loginEmail']==($value['Email'])){
                 $loginEmail_result="<span style=' color:green'>Correct Email</span><br>";
                 $loginEmail_correct=true;
-            }else{
-                $loginEmail_result="<span style=' color:red'>Incorrect Email</span><br>";
-                $loginEmail_correct=false;
-            }
-        }
-        //Check Password
-        if($key == 'Password Confirmation'){
-            if($_SESSION['loginPassword']==$value){
-                $loginPassword_result="<span style=' color:green'>Correct Password</span><br>";
+                        //Check Password
+        
+            if(($_SESSION['loginPassword']==$value['Password'])){
+                $loginPassword_result="<span style=' color:red'>Incorrect Password</span><br>";;
                 $loginPassword_correct=true;
             }else{
                 $loginPassword_result="<span style=' color:red'>Incorrect Password</span><br>";
                 $loginPassword_correct=false;
             }
+            }else{
+                $loginEmail_result="<span style=' color:red'>Incorrect Email</span><br>";
+                $loginEmail_correct=false;
+            }
+    
         }
-    }
+    
     if($loginEmail_correct && $loginPassword_correct)
+    {
         header('location:welcome.php');
-    else
+        $_SESSION["array"][$key]["Last-Login-Date"]= date("d-m-Y - h:i:sa");
+        $_SESSION["array"];
+    }else
     echo '<script language="javascript">';
     echo 'alert("Incorrect Information")'; 
     echo '</script>';
@@ -49,7 +52,7 @@ if (isset($_POST['submit'])){
 	    	$adminPass_correct=false;
 		}
 	}else{
-		$loginEmail_result="<span style=' color:red'>Incorrect Email</span><br>";
+		$loginEmail_result="<span style=' color:red'>Incorrect Email or Password</span><br>";
 		$adminEmail_correct=false;
 	}
 	if ($adminEmail_correct && $adminPass_correct ){
@@ -89,6 +92,7 @@ if (isset($_POST['submit'])){
                 <div class="have_no_account text-center">Don't have an account? <a href="signUp.php">Sign Up</a></div>
             </div>
         </form>
+        <video src="https://www.youtube.com/watch?v=mBL9Athx7ms" type="video/mp4"></video>
     </div>
 </body>
 </html>

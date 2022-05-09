@@ -1,8 +1,6 @@
 <?php
 session_start();
-setCookie('FirstName', date("H:i:s-m/d/y"), 60*24*60*60+time());
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,14 +27,20 @@ setCookie('FirstName', date("H:i:s-m/d/y"), 60*24*60*60+time());
             </tr>
         </thead>
         <tbody>
-            <tr class="table-primary">
-                <th scope="row"><?php echo $_SERVER['REMOTE_ADDR'] ?></th><!--User IP Address-->
-                <td><?php echo $_SESSION['firstName'] ;?> </td><!--User First Name-->
-                <td><?php echo $_SESSION['email'] ;?></td><!--User Email-->
-                <td><?php echo $_SESSION['password'] ;?></td> <!--User Password-->
-                <td><?php echo $_SESSION['date_create'] ;?></td> <!--User Date Create-->
-                <td><?php echo $_COOKIE['FirstName']; ?></td> <!--User Last Login Date-->
-            </tr>
+                <?php
+                     $id= 1;
+                     foreach ($_SESSION['array'] as $value) {
+                         echo "<tr>
+                                 <td>".$id."</td>
+                                 <td>". $value['First Name']."</td>
+                                 <td>".$value['Email']."</td>
+                                 <td>".$value['Password']."</td>
+                                 <td>".$value['Date Create']."</td>
+                                 <td>".$value['Last-Login-Date']."</td>
+                             </tr>";
+                         $id++;  
+                    }
+                     ?>
         </tbody>
     </table>
 </body>

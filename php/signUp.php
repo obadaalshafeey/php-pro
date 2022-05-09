@@ -7,19 +7,23 @@ $password_regex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,
 $phoneNumber_regex="/^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})?[-.\\s]?([0-9]{4})$/";
 
 if (isset($_POST['submit'])){
-$_SESSION['firstName']=$_POST['firstName'];
-$_SESSION['middleName']=$_POST['middleName'];
-$_SESSION['lastName']=$_POST['lastName'];
-$_SESSION['familyName']=$_POST['familyName'];
-$_SESSION['email']=$_POST['signUpEmail'];
-$_SESSION['password']=$_POST['signUpPassword'];
-$_SESSION['confirmPassword']=$_POST['signUpConfirmPassword'];
-$_SESSION['phoneNumber']=$_POST['phoneNumber'];
-$_SESSION['dateOfBirth']=$_POST['DOB'];
-$_SESSION['array']=array('');
-$_SESSION['date_create']=date("Y-m-d"); //Date Create
-    // First name check
-    if(preg_match($name_regex,$_SESSION['firstName'])){
+    if(!empty($_POST['firstName'])) $x1= $_POST['firstName'];
+    // if(!empty($mobile)) $x2= $mobile;
+    // if(!empty($fullName)) $x3= $fullName;
+    // if(!empty($birthDate)) $x4= $birthDate;
+    $firstName=$_POST['firstName'];
+    $_SESSION['firstName']=$_POST['firstName'];
+    $_SESSION['middleName']=$_POST['middleName'];
+    $_SESSION['lastName']=$_POST['lastName'];
+    $_SESSION['familyName']=$_POST['familyName'];
+    $_SESSION['email']=$_POST['signUpEmail'];
+    $_SESSION['password']=$_POST['signUpPassword'];
+    $_SESSION['confirmPassword']=$_POST['signUpConfirmPassword'];
+    $_SESSION['phoneNumber']=$_POST['phoneNumber'];
+    $_SESSION['dateOfBirth']=$_POST['DOB'];
+    $_SESSION['date_create']=date("Y-m-d"); //Date Create
+      // First name check
+      if(preg_match($name_regex,$_SESSION['firstName'])){
         $firstName_result="<span style=' color:green'>Correct Name</span> <br>";
         $firstName_correct=true;
     }else{
@@ -34,7 +38,7 @@ $_SESSION['date_create']=date("Y-m-d"); //Date Create
         $middleName_result="<span style=' color:red'>InCorrect Name, your middle name should contain letters only</span> <br>";
         $middleName_correct=false;
     }
-       //Middle name check
+       //Last name check
        if(preg_match($name_regex,$_SESSION['lastName'])){
         $lastName_result="<span style=' color:green'>Correct Name</span> <br>";
         $lastName_correct=true;
@@ -66,7 +70,7 @@ $_SESSION['date_create']=date("Y-m-d"); //Date Create
     }
     else{
         $password_result="<span style=' color:red'>Incorrect Password, your password shoud have:<br>1- 8 characters at least<br>2- At least one uppercase English letter<br>3- At least one lowercase English letter<br>4- At least one digit<br>5- At least one special character </span> <br>";
-        $paswword_correct=false;
+        $password_correct=false;
     }
     //Confirm Password
     if(preg_match($password_regex,$_SESSION['confirmPassword'])){
@@ -79,11 +83,10 @@ $_SESSION['date_create']=date("Y-m-d"); //Date Create
             $password_match=false;
             $confirmPassword_result="<span style=' color:red'>Password doesn't match</span> <br>";
         }
-        
     }
     else{
         $confirmPassword_result="<span style=' color:red'>Incorrect Password, your password shoud have:<br>1- 8 characters at least<br>2- At least one uppercase English letter<br>3- At least one lowercase English letter<br>4- At least one digit<br>5- At least one special character </span> <br>";
-        $confirmPaswword_correct=false;
+        $confirmPassword_correct=false;
     }
     //Phone
     if(preg_match($phoneNumber_regex,$_SESSION['phoneNumber'])){
@@ -104,10 +107,15 @@ $_SESSION['date_create']=date("Y-m-d"); //Date Create
         $dob_result="<span style=' color:red'>Your age is less than 16</span> <br>";
         $confirmDob_correct=false;
     }
+
+    $_SESSION["array"];
+    if(empty($_SESSION["array"])){
+        $_SESSION["array"]= [];
+    }
     if(
         $firstName_correct && $middleName_correct && $lastName_correct && $familyName_correct && $email_correct && $confirmPassword_correct && $confirmPhone_correct && $confirmDob_correct
     ){
-        $_SESSION['array']=array(
+        $data=[
             'First Name'=> $_SESSION['firstName'],
             'Middle Name'=> $_SESSION['middleName'],
             'Last Name'=>$_SESSION['lastName'],
@@ -116,15 +124,13 @@ $_SESSION['date_create']=date("Y-m-d"); //Date Create
             'Password'=> $_SESSION['password'],
             'Password Confirmation'=> $_SESSION['confirmPassword'],
             'Phone Number'=> $_SESSION['phoneNumber'],
-            'Date Of Birth'=>$_SESSION['dateOfBirth']
-        );
-        // foreach ($_SESSION['array'] as $key => $value) {
-        //     echo " $key; $value\n";
-        //   }
-        header('location:welcome.php');
-    }
-}
-
+            'Date Of Birth'=>$_SESSION['DOB'],
+            'Date Create'=>$_SESSION['date_create']
+        ];
+        array_push($_SESSION["array"],$data);
+        header('location:login.php');
+        exit();
+    }}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -146,39 +152,39 @@ $_SESSION['date_create']=date("Y-m-d"); //Date Create
                 <!--Full Name fields-->
                     <label for="fName">First Name</label>
                     <br>
-                    <input type="text" name="firstName" id="fName" class="form-control"  placeholder="First Name" required>
+                    <input type="text" name="firstName" id="fName" class="form-control"  placeholder="First Name" value="<?php if(isset($firstName_result)){echo $_POST['firstName'];}?>" required>
                     <br>
                     <?php if(isset($firstName_result)){echo $firstName_result;}?>
                     <br>
                     <label for="mName">Middle Name</label>
                     <br>
-                    <input type="text" name="middleName" id="mName"  class="form-control" placeholder="Middle Name" required>
+                    <input type="text" name="middleName" id="mName"  class="form-control" placeholder="Middle Name" value="<?php if(isset($_POST['middleName']))echo $_POST['middleName']?>" required>
                     <br>
                     <?php if(isset($middleName_result)){echo $middleName_result;}?>
                     <br>
                     <label for="lName">Last Name</label>
                     <br>
-                    <input type="text" name="lastName" id="lName"  class="form-control" placeholder="Last Name" required>
+                    <input type="text" name="lastName" id="lName"  class="form-control" placeholder="Last Name" value="<?php if(isset($_POST['lastName']))echo $_POST['lastName']?>" required>
                     <br>
                     <?php if(isset($lastName_result)){echo $lastName_result;}?>
                     <br>
                     <label for="family_Name">Family Name</label>
                     <br>
-                    <input type="text" name="familyName" id="family_Name"  class="form-control" placeholder="Family Name" required>
+                    <input type="text" name="familyName" id="family_Name"  class="form-control" placeholder="Family Name" value="<?php if(isset($_POST['familyName']))echo $_POST['familyName']?>"required>
                     <br>
                     <?php if(isset($familyName_result)){echo $familyName_result;}?>
                     <br>
                 <!--Email Number-->
                     <label for="signUpEmail">Email</label>
                     <br>
-                    <input type="email" name="signUpEmail" id="signUpEmail"  class="form-control"  placeholder="Your Email" required>
+                    <input type="email" name="signUpEmail" id="signUpEmail"  class="form-control"  placeholder="Your Email" value="<?php if(isset($_POST['email']))echo $_POST['email']?>" required>
                     <br>
                     <?php if(isset($email_result)){echo $email_result;}?>
                     <br>
                 <!--Password-->
                     <label for="loginPassword">Password</label>
                     <br>
-                    <input type="password" name="signUpPassword" id="signUpPassword"  class="form-control"  placeholder="Password" required>
+                    <input type="password" name="signUpPassword" id="signUpPassword"  class="form-control"  placeholder="Password" value='' required>
                     <br>
                     <?php if(isset($password_result)){echo $password_result;}?>
                     <br>
@@ -192,20 +198,23 @@ $_SESSION['date_create']=date("Y-m-d"); //Date Create
                 <!--Phone Number-->
                     <label for="phoneNumber">Phone Number</label>
                     <br>
-                    <input type="number" name="phoneNumber" id="phoneNumber" class="form-control"  placeholder="Phone Number" required>
+                    <input type="number" name="phoneNumber" id="phoneNumber" class="form-control" placeholder="Phone Number" value="<?php if(isset($_POST['phoneNumber']))echo $_POST['phoneNumber']?>" required>
                     <br>
                     <?php if(isset($phoneNumber_result)){echo $phoneNumber_result;}?>
                     <br>
+                    
                 <!--Date Of Birth-->
                     <label for="DOB">Date Of Birth</label>
                     <br>
-                    <input type="date" name="DOB" id="DOB" class="form-control"  placeholder="Date Of Birth" required>
+                    <input type="date" name="DOB" id="DOB" class="form-control"  placeholder="Date Of Birth" value="<?php if(isset($_POST['DOB']))echo $_POST['DOB']?>" required>
                     <br>
                     <?php if(isset($dob_result)){echo $dob_result;}?>
                     <br>
                     <br>            
                 </div>
-               
+                <div class= "col-lg-6">
+                    <img src="https://th.bing.com/th/id/R.0a43276bcb8cee31aa3730eea3337ae9?rik=leujVH%2b24cs0ew&riu=http%3a%2f%2fcliparts.co%2fcliparts%2f8iE%2f6X7%2f8iE6X7dgT.jpg&ehk=iXqnWzP5Ydu88AiWxcFfT1ZNeO83Rh6tG2xSL6rO57w%3d&risl=&pid=ImgRaw&r=0" height="400px" width="400px" alt="Sign Up">
+                </div>
             </div>
             <input type="submit" value="Submit" name="submit" class="btn btn-outline-danger col-lg-8">
             <div class="have-account">Already have an account? <a href="login.php">Login</a></div>

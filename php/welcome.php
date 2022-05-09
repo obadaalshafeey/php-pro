@@ -16,5 +16,6 @@ session_start();
         <h1 class="text-center"> Welcome <?php echo$_SESSION['firstName']." ".$_SESSION['middleName']." ".$_SESSION['lastName']." ".$_SESSION['familyName']; ?> To Your Home Page! </h1>
         <p class="text-center"> We want to remind you that your email is: <?php echo $_SESSION['email']; ?>, and your phone number is: <?php echo $_SESSION['phoneNumber']; ?> </p>
     </div>
+</video>
 </body>
 </html>
